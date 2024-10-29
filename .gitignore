@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.pkl
+
+backend/similarity.json
+backend/movie.json
+frontend/public/movie.json

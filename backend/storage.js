@@ -1,0 +1,70 @@
+// storage.js
+const { Storage } = require('@google-cloud/storage');
+const path = require('path');
+
+// Initialize Google Cloud Storage
+const storage = new Storage({
+  keyFilename: path.join(__dirname, './elegant-moment-440103-f0-de59cfcda7e7.json'),
+  projectId: 'elegant-moment-440103-f0',
+});
+
+// Bucket name
+const bucketName = 'popcornmovie';
+
+
+async function uploadFiles(files) {
+    const uploadPromises = files.map(async ({ localFilePath, destinationFileName }) => {
+      await storage.bucket(bucketName).upload(localFilePath, {
+        destination: destinationFileName,
+        gzip: true,
+      });
+      console.log(`${destinationFileName} uploaded to ${bucketName}`);
+    });
+  
+    await Promise.all(uploadPromises);
+  }
+  
+  // Function to read JSON file content directly from GCS
+  async function readFileContent(fileName) {
+    const file = storage.bucket(bucketName).file(fileName);
+    const [contents] = await file.download();
+    return JSON.parse(contents.toString('utf-8')); // Return parsed JSON
+  }
+  
+  // Export functions
+  module.exports = {
+    uploadFiles,
+    readFileContent,
+  };
+
+// // Function to upload a file
+// async function uploadFile(filePath) {
+//   const fileName = path.basename(filePath);
+//   await storage.bucket(bucketName).upload(filePath, {
+//     destination: fileName,
+//     gzip: true,
+//   });
+//   console.log(`${fileName} uploaded to ${bucketName}`);
+// }
+
+// // Function to download a file
+// async function downloadFile(fileName, destinationPath) {
+//   const options = { destination: destinationPath };
+//   await storage.bucket(bucketName).file(fileName).download(options);
+//   console.log(`Downloaded ${fileName} to ${destinationPath}`);
+// }
+
+// // Function to read file content directly
+// async function readFileContent(fileName) {
+//   const file = storage.bucket(bucketName).file(fileName);
+//   const [contents] = await file.download();
+//   const data = JSON.parse(contents.toString('utf-8'));
+//   console.log("File content:", data);
+// }
+
+// // Export functions
+// module.exports = {
+//   uploadFile,
+//   downloadFile,
+//   readFileContent,
+// };
