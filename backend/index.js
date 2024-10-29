@@ -8,11 +8,12 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cors());
 // app.use(cors({
 //     origin: process.env.FRONTEND_URL,
 // }));
 
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
 
 // Load movie data and similarity data
 let movies = [];
@@ -87,6 +88,10 @@ app.post('/recommend', (req, res) => {
     const recommendations = getRecommendations(movieTitle);
     res.json({ recommendations });
 });
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html')); // Serve index.html for all routes
+  });
 
 // Start the server
 app.listen(3000, () => {
