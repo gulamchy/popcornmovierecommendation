@@ -13,7 +13,9 @@ app.use(cors());
 //     origin: process.env.FRONTEND_URL,
 // }));
 
-app.use(express.static(path.join(__dirname, 'frontend', 'dist')));
+// Serve the static files from the 'frontend/dist' directory
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist'))); // Adjust the path accordingly
+
 
 // Load movie data and similarity data
 let movies = [];
@@ -90,8 +92,8 @@ app.post('/recommend', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html')); // Serve index.html for all routes
-  });
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
+});
 
 // Start the server
 app.listen(3000, () => {
