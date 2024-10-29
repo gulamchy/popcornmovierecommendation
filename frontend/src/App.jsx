@@ -31,7 +31,7 @@ const App = () => {
     const fetchMovies = async () => {
       try {
         setLoading(true); 
-        const response = await fetch("https://popcorn-guru-movie-recommendation.onrender.com/movies"); // Fetch from backend "https://popcorn-guru-movie-recommendation.onrender.com/movies"
+        const response = await fetch("http://localhost:3000/movies"); // Fetch from backend "https://popcorn-guru-movie-recommendation.onrender.com/movies"
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         // Shuffle movies and select top 5
@@ -89,7 +89,7 @@ const App = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://popcorn-guru-movie-recommendation.onrender.com/recommend", {
+      const response = await fetch("http://localhost:3000/recommend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
