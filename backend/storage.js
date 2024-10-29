@@ -6,7 +6,7 @@ const path = require('path');
 require('dotenv').config();
 
 
-const keyFilename = process.env.NODE_ENV === 'production'
+const keyFilename = process.env.NODE_ENV === 'test'
   ? '/etc/secrets/elegant-moment-440103-f0-53cb3a480423.json' // Render.com
   : path.join(__dirname, './elegant-moment-440103-f0-53cb3a480423.json');
 
