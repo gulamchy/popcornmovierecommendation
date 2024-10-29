@@ -1,27 +1,21 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { uploadFiles, readFileContent } = require('./storage');
+const { readFileContent } = require('./storage');
 
 const app = express();
-// const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(cors());
-// app.use(cors({
-//     origin: process.env.FRONTEND_URL,
-// }));
-
-// Serve the static files from the 'frontend/dist' directory
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist'))); // Adjust the path accordingly
 
 
-// Load movie data and similarity data
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
+
+
 let movies = [];
 let similarity = [];
 
-// Function to load data from GCS
+
 const loadDataFromGCS = async () => {
     try {
         movies = await readFileContent('movie.json');
@@ -32,7 +26,7 @@ const loadDataFromGCS = async () => {
     }
 };
 
-// Call loadDataFromGCS once when the server starts
+
 loadDataFromGCS().then(() => {
     console.log("Data loaded successfully");
 }).catch((error) => {
@@ -64,22 +58,6 @@ app.get('/movies', (req, res) => {
     res.json(movies); // Send the JSON data as the response
 });
 
-// Endpoint to upload files
-app.post('/upload', async (req, res) => {
-    const files = req.body.files; // Expecting an array of file objects
-    if (!files || !Array.isArray(files)) {
-        return res.status(400).json({ error: 'Files array is required' });
-    }
-    try {
-        await uploadFiles(files);
-        await loadDataFromGCS(); // Reload the data after upload
-        res.json({ message: 'Files uploaded successfully and data reloaded' });
-    } catch (error) {
-        console.error("Error uploading files:", error);
-        res.status(500).json({ error: 'File upload failed' });
-    }
-});
-
 // Endpoint to get movie recommendations
 app.post('/recommend', (req, res) => {
     const { movieTitle } = req.body;
@@ -91,13 +69,14 @@ app.post('/recommend', (req, res) => {
     res.json({ recommendations });
 });
 
+// Catch-all for serving the frontend
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
 });
 
 // Start the server
+const PORT = process.env.PORT || 3000;
 app.listen(3000, () => {
-    console.log(`Server is running on 3000`);
+    console.log(`Server is running on port ${PORT}`);
 });
-
 
