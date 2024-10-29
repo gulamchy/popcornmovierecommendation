@@ -6,7 +6,7 @@ import EmojiText from "./emojiText";
 import Card from "./card";
 import { BeatLoader } from 'react-spinners'; 
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ""; 
+// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ""; 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 const App = () => {
@@ -31,7 +31,7 @@ const App = () => {
     const fetchMovies = async () => {
       try {
         setLoading(true); 
-        const response = await fetch(`${API_BASE_URL}/movies`); // Fetch from backend
+        const response = await fetch("https://popcorn-guru-movie-recommendation.onrender.com/movies"); // Fetch from backend "https://popcorn-guru-movie-recommendation.onrender.com/movies"
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         // Shuffle movies and select top 5
@@ -89,7 +89,7 @@ const App = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/recommend`, {
+      const response = await fetch("https://popcorn-guru-movie-recommendation.onrender.com/recommend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
