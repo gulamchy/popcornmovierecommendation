@@ -36,35 +36,3 @@ async function uploadFiles(files) {
     uploadFiles,
     readFileContent,
   };
-
-// // Function to upload a file
-// async function uploadFile(filePath) {
-//   const fileName = path.basename(filePath);
-//   await storage.bucket(bucketName).upload(filePath, {
-//     destination: fileName,
-//     gzip: true,
-//   });
-//   console.log(`${fileName} uploaded to ${bucketName}`);
-// }
-
-// // Function to download a file
-// async function downloadFile(fileName, destinationPath) {
-//   const options = { destination: destinationPath };
-//   await storage.bucket(bucketName).file(fileName).download(options);
-//   console.log(`Downloaded ${fileName} to ${destinationPath}`);
-// }
-
-// // Function to read file content directly
-// async function readFileContent(fileName) {
-//   const file = storage.bucket(bucketName).file(fileName);
-//   const [contents] = await file.download();
-//   const data = JSON.parse(contents.toString('utf-8'));
-//   console.log("File content:", data);
-// }
-
-// // Export functions
-// module.exports = {
-//   uploadFile,
-//   downloadFile,
-//   readFileContent,
-// };
